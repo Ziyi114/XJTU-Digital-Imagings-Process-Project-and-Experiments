@@ -1,0 +1,697 @@
+%1.1 75
+i1=imread('test1.pgm');
+i2=imread('test2.tif');
+figure(1)
+subplot(1,2,1)
+imshow(i1);
+subplot(1,2,2)
+imshow(i2);
+title('初始图像');
+f1=double(i1);
+f2=double(i2);
+F1=fft2(f1);
+F1=fftshift(F1);
+F2=fft2(f2);
+F2=fftshift(F2);
+[p1,q1]=size(F1);
+[p2,q2]=size(F2);
+butterworth_num=2;
+d0=75;
+for u=1:p1
+    for v=1:q1
+        D1(u,v)=sqrt((u-fix(p1/2))^2+(v-fix(q1/2))^2);
+        H1(u,v)=1/(1+(D1(u,v)/d0)^(2*butterworth_num));
+        G1(u,v)=F1(u,v)*H1(u,v);
+    end
+end
+for u=1:p2
+    for v=1:q2
+        D2(u,v)=sqrt((u-fix(p2/2))^2+(v-fix(q2/2))^2);
+        H2(u,v)=1/(1+(D2(u,v)/d0)^(2*butterworth_num));
+        G2(u,v)=F2(u,v)*H2(u,v);
+    end
+end
+g1=ifftshift(G1);
+g1=ifft2(g1);
+g1=uint8(real(g1));
+g2=ifftshift(G2);
+g2=ifft2(g2);
+g2=uint8(real(g2));
+figure(2)
+subplot(2,2,1)
+imshow(g1);
+subplot(2,2,2)
+imshow(g2);
+title('butterworth d0=75 lowpass');
+s=0;
+s1=0;
+for u=1:p1
+    for v=1:q1
+        l1=(abs(G1(u,v)))^2;
+        s1=s1+l1;
+        l=(abs(F1(u,v)))^2;
+        s=s+l;
+    end
+end
+l1=s1/s;
+s=0;
+s2=0;
+for u=1:p2
+    for v=1:q2
+        l2=(abs(G2(u,v)))^2;
+        s2=s2+l2;
+        l=(abs(F2(u,v)))^2;
+        s=s+l;
+    end
+end
+l2=s2/s;
+l1
+l2
+
+%1.1 25
+i1=imread('test1.pgm');
+i2=imread('test2.tif');
+figure(1)
+subplot(1,2,1)
+imshow(i1);
+subplot(1,2,2)
+imshow(i2);
+title('初始图像');
+f1=double(i1);
+f2=double(i2);
+F1=fft2(f1);
+F1=fftshift(F1);
+F2=fft2(f2);
+F2=fftshift(F2);
+[p1,q1]=size(F1);
+[p2,q2]=size(F2);
+butterworth_num=2;
+d0=25;
+for u=1:p1
+    for v=1:q1
+        D1(u,v)=sqrt((u-fix(p1/2))^2+(v-fix(q1/2))^2);
+        H1(u,v)=1/(1+(D1(u,v)/d0)^(2*butterworth_num));
+        G1(u,v)=F1(u,v)*H1(u,v);
+    end
+end
+for u=1:p2
+    for v=1:q2
+        D2(u,v)=sqrt((u-fix(p2/2))^2+(v-fix(q2/2))^2);
+        H2(u,v)=1/(1+(D2(u,v)/d0)^(2*butterworth_num));
+        G2(u,v)=F2(u,v)*H2(u,v);
+    end
+end
+g1=ifftshift(G1);
+g1=ifft2(g1);
+g1=uint8(real(g1));
+g2=ifftshift(G2);
+g2=ifft2(g2);
+g2=uint8(real(g2));
+figure(2)
+subplot(2,2,1)
+imshow(g1);
+subplot(2,2,2)
+imshow(g2);
+title('butterworth d0=25 lowpass');
+s=0;
+s1=0;
+for u=1:p1
+    for v=1:q1
+        l1=(abs(G1(u,v)))^2;
+        s1=s1+l1;
+        l=(abs(F1(u,v)))^2;
+        s=s+l;
+    end
+end
+l1=s1/s;
+s=0;
+s2=0;
+for u=1:p2
+    for v=1:q2
+        l2=(abs(G2(u,v)))^2;
+        s2=s2+l2;
+        l=(abs(F2(u,v)))^2;
+        s=s+l;
+    end
+end
+l2=s2/s;
+l1
+l2
+
+%1.2 75
+i1=imread('test1.pgm');
+i2=imread('test2.tif');
+figure(1)
+subplot(1,2,1)
+imshow(i1);
+subplot(1,2,2)
+imshow(i2);
+title('初始图像');
+f1=double(i1);
+f2=double(i2);
+F1=fft2(f1);
+F1=fftshift(F1);
+F2=fft2(f2);
+F2=fftshift(F2);
+[p1,q1]=size(F1);
+[p2,q2]=size(F2);
+d0=75;
+for u=1:p1
+    for v=1:q1
+        D1(u,v)=sqrt((u-fix(p1/2))^2+(v-fix(q1/2)^2));
+        H1(u,v)=exp(-D1(u,v)^2/(2*d0^2));
+        G1(u,v)=F1(u,v)*H1(u,v);
+    end
+end
+for u=1:p2
+    for v=1:q2
+        D2(u,v)=sqrt((u-fix(p2/2))^2+(v-fix(q2/2)^2));
+        H2(u,v)=exp(-D2(u,v)^2/(2*d0^2));
+        G2(u,v)=F2(u,v)*H2(u,v);
+    end
+end
+g1=ifftshift(G1);
+g1=ifft2(g1);
+g1=uint8(real(g1));
+g2=ifftshift(G2);
+g2=ifft2(g2);
+g2=uint8(real(g2));
+figure(2)
+subplot(2,2,1)
+imshow(g1);
+subplot(2,2,2)
+imshow(g2);
+title('gaussian d0=75 lowpass');
+s=0;
+s1=0;
+for u=1:p1
+    for v=1:q1
+        l1=(abs(G1(u,v)))^2;
+        s1=s1+l1;
+        l=(abs(F1(u,v)))^2;
+        s=s+l;
+    end
+end
+l1=s1/s;
+s=0;
+s2=0;
+for u=1:p2
+    for v=1:q2
+        l2=(abs(G2(u,v)))^2;
+        s2=s2+l2;
+        l=(abs(F2(u,v)))^2;
+        s=s+l;
+    end
+end
+l2=s2/s;
+l1
+l2
+
+
+%1.2 25
+i1=imread('test1.pgm');
+i2=imread('test2.tif');
+figure(1)
+subplot(1,2,1)
+imshow(i1);
+subplot(1,2,2)
+imshow(i2);
+title('初始图像');
+f1=double(i1);
+f2=double(i2);
+F1=fft2(f1);
+F1=fftshift(F1);
+F2=fft2(f2);
+F2=fftshift(F2);
+[p1,q1]=size(F1);
+[p2,q2]=size(F2);
+d0=25;
+for u=1:p1
+    for v=1:q1
+        D1(u,v)=sqrt((u-fix(p1/2))^2+(v-fix(q1/2)^2));
+        H1(u,v)=exp(-D1(u,v)^2/(2*d0^2));
+        G1(u,v)=F1(u,v)*H1(u,v);
+    end
+end
+for u=1:p2
+    for v=1:q2
+        D2(u,v)=sqrt((u-fix(p2/2))^2+(v-fix(q2/2)^2));
+        H2(u,v)=exp(-D2(u,v)^2/(2*d0^2));
+        G2(u,v)=F2(u,v)*H2(u,v);
+    end
+end
+g1=ifftshift(G1);
+g1=ifft2(g1);
+g1=uint8(real(g1));
+g2=ifftshift(G2);
+g2=ifft2(g2);
+g2=uint8(real(g2));
+figure(2)
+subplot(2,2,1)
+imshow(g1);
+subplot(2,2,2)
+imshow(g2);
+title('gaussian d0=25 lowpass');
+s=0;
+s1=0;
+for u=1:p1
+    for v=1:q1
+        l1=(abs(G1(u,v)))^2;
+        s1=s1+l1;
+        l=(abs(F1(u,v)))^2;
+        s=s+l;
+    end
+end
+l1=s1/s;
+s=0;
+s2=0;
+for u=1:p2
+    for v=1:q2
+        l2=(abs(G2(u,v)))^2;
+        s2=s2+l2;
+        l=(abs(F2(u,v)))^2;
+        s=s+l;
+    end
+end
+l2=s2/s;
+l1
+l2
+
+%2.1 25
+i1=imread('test3_corrupt.pgm');
+i2=imread('test4 copy.bmp');
+figure(1)
+subplot(1,2,1)
+imshow(i1);
+subplot(1,2,2)
+imshow(i2);
+title('初始图像');
+f1=double(i1);
+f2=double(i2);
+F1=fft2(f1);
+F1=fftshift(F1);
+F2=fft2(f2);
+F2=fftshift(F2);
+[p1,q1]=size(F1);
+[p2,q2]=size(F2);
+butterworth_num=2;
+d0=25;
+for u=1:p1
+    for v=1:q1
+        D1(u,v)=sqrt((u-fix(p1/2))^2+(v-fix(q1/2))^2);
+        H1(u,v)=1/(1+(d0/D1(u,v))^(2*butterworth_num));
+        G1(u,v)=F1(u,v)*H1(u,v);
+    end
+end
+for u=1:p2
+    for v=1:q2
+        D2(u,v)=sqrt((u-fix(p2/2))^2+(v-fix(q2/2))^2);
+        H2(u,v)=1/(1+(d0/D2(u,v))^(2*butterworth_num));
+        G2(u,v)=F2(u,v)*H2(u,v);
+    end
+end
+g1=ifftshift(G1);
+g1=ifft2(g1);
+g1=uint8(real(g1));
+g2=ifftshift(G2);
+g2=ifft2(g2);
+g2=uint8(real(g2));
+figure(2)
+subplot(2,2,1)
+imshow(g1);
+subplot(2,2,2)
+imshow(g2);
+title('butterworth d0=25 highpass');
+s=0;
+s1=0;
+for u=1:p1
+    for v=1:q1
+        l1=(abs(G1(u,v)))^2;
+        s1=s1+l1;
+        l=(abs(F1(u,v)))^2;
+        s=s+l;
+    end
+end
+l1=s1/s;
+s=0;
+s2=0;
+for u=1:p2
+    for v=1:q2
+        l2=(abs(G2(u,v)))^2;
+        s2=s2+l2;
+        l=(abs(F2(u,v)))^2;
+        s=s+l;
+    end
+end
+l2=s2/s;
+l1
+l2
+
+%2.1 75
+i1=imread('test3_corrupt.pgm');
+i2=imread('test4 copy.bmp');
+figure(1)
+subplot(1,2,1)
+imshow(i1);
+subplot(1,2,2)
+imshow(i2);
+title('初始图像');
+f1=double(i1);
+f2=double(i2);
+F1=fft2(f1);
+F1=fftshift(F1);
+F2=fft2(f2);
+F2=fftshift(F2);
+[p1,q1]=size(F1);
+[p2,q2]=size(F2);
+butterworth_num=2;
+d0=25;
+for u=1:p1
+    for v=1:q1
+        D1(u,v)=sqrt((u-fix(p1/2))^2+(v-fix(q1/2))^2);
+        H1(u,v)=1/(1+(d0/D1(u,v))^(2*butterworth_num));
+        G1(u,v)=F1(u,v)*H1(u,v);
+    end
+end
+for u=1:p2
+    for v=1:q2
+        D2(u,v)=sqrt((u-fix(p2/2))^2+(v-fix(q2/2))^2);
+        H2(u,v)=1/(1+(d0/D2(u,v))^(2*butterworth_num));
+        G2(u,v)=F2(u,v)*H2(u,v);
+    end
+end
+g1=ifftshift(G1);
+g1=ifft2(g1);
+g1=uint8(real(g1));
+g2=ifftshift(G2);
+g2=ifft2(g2);
+g2=uint8(real(g2));
+figure(2)
+subplot(2,2,1)
+imshow(g1);
+subplot(2,2,2)
+imshow(g2);
+title('butterworth d0=75 highpass');
+s=0;
+s1=0;
+for u=1:p1
+    for v=1:q1
+        l1=(abs(G1(u,v)))^2;
+        s1=s1+l1;
+        l=(abs(F1(u,v)))^2;
+        s=s+l;
+    end
+end
+l1=s1/s;
+s=0;
+s2=0;
+for u=1:p2
+    for v=1:q2
+        l2=(abs(G2(u,v)))^2;
+        s2=s2+l2;
+        l=(abs(F2(u,v)))^2;
+        s=s+l;
+    end
+end
+l2=s2/s;
+l1
+l2
+
+%2.2 25
+i1=imread('test3_corrupt.pgm');
+i2=imread('test4 copy.bmp');
+figure(1)
+subplot(1,2,1)
+imshow(i1);
+subplot(1,2,2)
+imshow(i2);
+title('初始图像');
+f1=double(i1);
+f2=double(i2);
+F1=fft2(f1);
+F1=fftshift(F1);
+F2=fft2(f2);
+F2=fftshift(F2);
+[p1,q1]=size(F1);
+[p2,q2]=size(F2);
+d0=25;
+for u=1:p1
+    for v=1:q1
+        D1(u,v)=sqrt((u-fix(p1/2))^2+(v-fix(q1/2))^2);
+        H1(u,v)=1-exp(-D1(u,v)^2/(2*d0^2));
+        G1(u,v)=F1(u,v)*H1(u,v);
+    end
+end
+for u=1:p2
+    for v=1:q2
+        D2(u,v)=sqrt((u-fix(p2/2))^2+(v-fix(q2/2))^2);
+        H2(u,v)=1-exp(-D2(u,v)^2/(2*d0^2));
+        G2(u,v)=F2(u,v)*H2(u,v);
+    end
+end
+g1=ifftshift(G1);
+g1=ifft2(g1);
+g1=uint8(real(g1));
+g2=ifftshift(G2);
+g2=ifft2(g2);
+g2=uint8(real(g2));
+figure(2)
+subplot(2,2,1)
+imshow(g1);
+subplot(2,2,2)
+imshow(g2);
+title('gaussian d0=25 lowpass');
+s=0;
+s1=0;
+for u=1:p1
+    for v=1:q1
+        l1=(abs(G1(u,v)))^2;
+        s1=s1+l1;
+        l=(abs(F1(u,v)))^2;
+        s=s+l;
+    end
+end
+l1=s1/s;
+s=0;
+s2=0;
+for u=1:p2
+    for v=1:q2
+        l2=(abs(G2(u,v)))^2;
+        s2=s2+l2;
+        l=(abs(F2(u,v)))^2;
+        s=s+l;
+    end
+end
+l2=s2/s;
+l1
+l2
+
+%2.2 75
+i1=imread('test3_corrupt.pgm');
+i2=imread('test4 copy.bmp');
+figure(1)
+subplot(1,2,1)
+imshow(i1);
+subplot(1,2,2)
+imshow(i2);
+title('初始图像');
+f1=double(i1);
+f2=double(i2);
+F1=fft2(f1);
+F1=fftshift(F1);
+F2=fft2(f2);
+F2=fftshift(F2);
+[p1,q1]=size(F1);
+[p2,q2]=size(F2);
+d0=75;
+for u=1:p1
+    for v=1:q1
+        D1(u,v)=sqrt((u-fix(p1/2))^2+(v-fix(q1/2))^2);
+        H1(u,v)=1-exp(-D1(u,v)^2/(2*d0^2));
+        G1(u,v)=F1(u,v)*H1(u,v);
+    end
+end
+for u=1:p2
+    for v=1:q2
+        D2(u,v)=sqrt((u-fix(p2/2))^2+(v-fix(q2/2))^2);
+        H2(u,v)=1-exp(-D2(u,v)^2/(2*d0^2));
+        G2(u,v)=F2(u,v)*H2(u,v);
+    end
+end
+g1=ifftshift(G1);
+g1=ifft2(g1);
+g1=uint8(real(g1));
+g2=ifftshift(G2);
+g2=ifft2(g2);
+g2=uint8(real(g2));
+figure(2)
+subplot(2,2,1)
+imshow(g1);
+subplot(2,2,2)
+imshow(g2);
+title('gaussian d0=25 lowpass');
+s=0;
+s1=0;
+for u=1:p1
+    for v=1:q1
+        l1=(abs(G1(u,v)))^2;
+        s1=s1+l1;
+        l=(abs(F1(u,v)))^2;
+        s=s+l;
+    end
+end
+l1=s1/s;
+s=0;
+s2=0;
+for u=1:p2
+    for v=1:q2
+        l2=(abs(G2(u,v)))^2;
+        s2=s2+l2;
+        l=(abs(F2(u,v)))^2;
+        s=s+l;
+    end
+end
+l2=s2/s;
+l1
+l2
+
+%3.1 
+clc,clf,clear all,close all;
+inima = imread('test3_corrupt.pgm'); % cell.tif,Fig0338(a)(blurry_moon).tif
+subplot(131),imshow(inima),title('The original image')
+% =========================================================================
+if ndims(inima) == 3,   % RGB image is given
+    f = rgb2gray(inima);
+else
+    f = inima;          % Graylevel image is given
+end
+
+if (~isa(f,'double'))
+    f = double(f);
+end
+
+% =========================================================================
+% Normalizing image f in preprocesing
+% =========================================================================
+f = (f-min(f(:)))/(max(f(:))-min(f(:))+eps);
+% =========================================================================
+
+h =[ 1 1 1;1 -8 1;1 1 1]; 
+%h =[ 0 1 0;1 -4 1;0 1 0];
+%h = fspecial('laplacian',0.0); % alpha ~[0-1]
+laf = imfilter(f,h,'replicate');
+subplot(132),imshow(laf,[]),title('Spatial Laplacian filtering')
+sharpf = f-laf/max(laf(:));     % Sharpen
+sharpf = imadjust(sharpf,[min(f(:)) max(f(:))]); % Scale the image
+subplot(133),imshow(sharpf)
+title('Sharpen in spatial domain')
+
+% =========================================================================
+% Boundary padding + Zeros padding
+% =========================================================================
+[M,N] = size(f);                     % Original size
+padsiz = [3 3];                      % Set padding size (single bound)
+bP = padsiz(1);bQ = padsiz(2);       % The bounds pixcels (single)
+fb = padarray(f,padsiz,'replicate'); % Pad the double bounds of f
+P = 2*(M+2*bP); Q = 2*(N+2*bQ);      % Double (padsiz + f)
+fbp = zeros(P,Q);
+fbp(1:M+2*bP,1:N+2*bQ) = fb;
+Fbp = fftshift(fft2(fbp));           % FFT of fbp
+
+% =========================================================================
+% Laplace filter in frequence domain
+% =========================================================================
+H = zeros(P,Q);                          % 2*(padsiz + size(f))
+for u = 1:P
+    for v = 1:Q
+        D = (u-1-P/2).^2 + (v-1-Q/2).^2; % change to [0~P-1,0~Q-1]
+        H(u,v) = -4*pi*pi*D;
+    end
+end
+Gp = H.*Fbp;                 % filtering with point operation
+gp  = real(ifft2(ifftshift(Gp)));
+
+% =========================================================================
+g = gp(1+bP:M+bP,1+bQ:N+bQ); % Remove the left-top bounds
+gmax = max(abs(g(:)));
+figure,subplot(131),imshow(inima),title('The original image')
+subplot(132),imshow(g./gmax,[]),title('Freq. Laplacian flitering')
+
+% =========================================================================
+% Sharpen image
+% =========================================================================
+gs = f-g./gmax; 
+% =========================================================================
+gs = imadjust(gs,[0 1]);   % Scale the image
+subplot(133),imshow(gs,[]),title('Sharpen in freq. domain')
+%3.2
+i1=imread('test3_corrupt.pgm');
+i2=imread('test4 copy.bmp');
+figure(1)
+subplot(1,2,1)
+imshow(i1);
+subplot(1,2,2)
+imshow(i2);
+title('初始图像');
+f1=double(i1);
+f2=double(i2);
+F1=fft2(f1);
+F1=fftshift(F1);
+F2=fft2(f2);
+F2=fftshift(F2);
+[p1,q1]=size(F1);
+[p2,q2]=size(F2);
+d0=100;
+k1=1;
+k2=1;
+for u=1:p1
+    for v=1:q1
+        D1(u,v)=sqrt((u-fix(p1/2))^2+(v-fix(q1/2))^2);
+        H1(u,v)=1-exp(-D1(u,v)^2/(2*d0^2));
+        G1(u,v)=F1(u,v)*(k1+k2*H1(u,v));
+    end
+end
+for u=1:p2
+    for v=1:q2
+        D2(u,v)=sqrt((u-fix(p2/2))^2+(v-fix(q2/2))^2);
+        H2(u,v)=1-exp(-D2(u,v)^2/(2*d0^2));
+        G2(u,v)=F2(u,v)*(k1+k2*H2(u,v));
+    end
+end
+g1=ifftshift(G1);
+g1=ifft2(g1);
+g1=uint8(real(g1));
+g2=ifftshift(G2);
+g2=ifft2(g2);
+g2=uint8(real(g2));
+figure(2)
+subplot(2,2,1)
+imshow(g1);
+subplot(2,2,2)
+imshow(g2);
+title('unmask highpass');
+s=0;
+s1=0;
+for u=1:p1
+    for v=1:q1
+        l1=(abs(G1(u,v)))^2;
+        s1=s1+l1;
+        l=(abs(F1(u,v)))^2;
+        s=s+l;
+    end
+end
+l1=s1/s;
+s=0;
+s2=0;
+for u=1:p2
+    for v=1:q2
+        l2=(abs(G2(u,v)))^2;
+        s2=s2+l2;
+        l=(abs(F2(u,v)))^2;
+        s=s+l;
+    end
+end
+l2=s2/s;
+l1
+l2
+
